@@ -1,6 +1,9 @@
 class EventsConsumer < ApplicationConsumer
   BACKPRESSURE_PAUSE_MS = 5_000
 
+  # Each Kafka message represents a single event.
+  # The HTTP ingest layer (POST /events) is responsible for
+  # splitting list payloads into individual messages before producing.
   def consume
     messages.each do |message|
       process(message)
