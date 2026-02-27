@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_27_121757) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_27_123824) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "daily_metrics", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.date "day", null: false
+    t.integer "event_count", default: 0, null: false
+    t.string "event_type", null: false
+    t.datetime "updated_at", null: false
+    t.string "user_id", null: false
+    t.index ["user_id", "day", "event_type"], name: "index_daily_metrics_on_user_id_and_day_and_event_type", unique: true
+  end
 
   create_table "processed_events", force: :cascade do |t|
     t.string "event_id", null: false
