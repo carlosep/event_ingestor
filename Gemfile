@@ -13,7 +13,7 @@ gem "pg",     "~> 1.5"
 gem "karafka", "~> 2.3"
 
 group :development, :test do
-  gem "rspec-rails",       "~> 6.1"
+  gem "rspec-rails",       "~> 8.0"
   gem "factory_bot_rails", "~> 6.4"
   gem "timecop",           "~> 0.9"
 end
