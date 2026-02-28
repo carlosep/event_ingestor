@@ -1,3 +1,6 @@
+# EventPayload is a value object — its only job is to validate the
+# structure of a raw Kafka message and expose typed attributes.
+
 class EventPayload
   attr_reader :event_id, :user_id, :type, :occurred_at, :props
 
@@ -29,6 +32,7 @@ class EventPayload
   end
 
   def parse_time!(value)
+    # The spec explicitly requires ISO8601, Time.iso8601 will enforce exactly that
     Time.iso8601(value.to_s)
   rescue ArgumentError, TypeError
     raise InvalidPayloadError,

@@ -1,5 +1,10 @@
 class KarafkaApp < Karafka::App
   setup do |config|
+    # With auto-commit on, Kafka advances the offset on a timer regardless
+    # of whether processing succeeded. A crash mid-batch would silently
+    # skip messages — they'd never be redelivered. With it off, Karafka
+    # only commits after #consume returns successfully. A crash means
+    # redelivery, and idempotency handles the duplicate safely.
     config.kafka = {
       "bootstrap.servers": ENV.fetch("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092"),
       "group.id":          ENV.fetch("KAFKA_CONSUMER_GROUP", "event_ingestor"),
