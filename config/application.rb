@@ -38,5 +38,16 @@ module EventIngestor
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    config.after_initialize do
+      # Karafka's Rails railtie freezes autoload paths which conflicts with
+      # RSpec's environment loading. We manage Karafka boot ourselves in tests
+      # via karafka-testing.
+      if Rails.env.test?
+        Karafka::App.setup do |config|
+          config.logger = Logger.new(nil)
+        end
+      end
+    end
   end
 end
